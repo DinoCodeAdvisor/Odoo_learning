@@ -27,4 +27,4 @@ new_partner_id = models.execute_kw(
 
 print(f'Nuevo partner creado con ID: {new_partner_id}')
 
-connection.create_products_from_csv('files/products.csv')
+connection.create_products_from_csv('/files/products.csv')

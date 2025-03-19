@@ -1,5 +1,5 @@
 import xmlrpc.client
-import csv
+import csv, os
 
 class Connection:
     def credentials(self):
@@ -49,7 +49,13 @@ class Connection:
     
     # New helper method to create a product from an CSV file
     def create_products_from_csv(self, csv_file_path):
-        with open(csv_file_path, mode="r") as file:
+        path = os.path.dirname(os.path.abspath(__file__)) + csv_file_path
+        print(f"Current working directory: {os.path.dirname(os.path.abspath(__file__)) + csv_file_path}")
+        if not os.path.exists(path):
+            print(f"File not found: {path}")
+            return
+
+        with open(path, mode="r") as file:
             csv_reader = csv.DictReader(file)
             products = []
 
@@ -58,11 +64,11 @@ class Connection:
                     'name': row['name'],
                     'default_code': row['default_code'],
                     'list_price': float(row['list_price']),
-                    'type': '´product'
+                    'type': 'product'  # Fixing this line (previous had a typo: '´product')
                 }
 
                 products.append(product_data)
-            
+
             for product in products:
                 response = self.model_execute_create('product.template', product)
                 print(f'Created product: {response}')
