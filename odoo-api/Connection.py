@@ -1,11 +1,13 @@
 import xmlrpc.client
+import csv
+
 class Connection:
     def credentials(self):
         return {
             "url": "http://127.0.0.1:8069",
             "db": 'odoo_db',
             "username": "ferzg2004@gmail.com",
-            "password": "e5f76044f62b4a8cc3c5c9f3db7079c2d3bec136"
+            "password": "Lunatico2019"
         }
 
     # New helper method to extract specific credentials
@@ -44,3 +46,24 @@ class Connection:
             [data]
         )
         return response
+    
+    # New helper method to create a product from an CSV file
+    def create_products_from_csv(self, csv_file_path):
+        with open(csv_file_path, mode="r") as file:
+            csv_reader = csv.DictReader(file)
+            products = []
+
+            for row in csv_reader:
+                product_data = {
+                    'name': row['name'],
+                    'default_code': row['default_code'],
+                    'list_price': float(row['list_price']),
+                    'type': '´product'
+                }
+
+                products.append(product_data)
+            
+            for product in products:
+                response = self.model_execute_create('product.template', product)
+                print(f'Created product: {response}')
+        
