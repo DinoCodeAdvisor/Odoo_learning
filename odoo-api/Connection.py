@@ -64,7 +64,7 @@ class Connection:
                     'name': row['name'],
                     'default_code': row['default_code'],
                     'list_price': float(row['list_price']),
-                    'type': 'product'  # Fixing this line (previous had a typo: '´product')
+                    'type': 'product'
                 }
 
                 products.append(product_data)
